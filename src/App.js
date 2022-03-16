@@ -1,16 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   return (
     <div className="App">
          <Counter></Counter>
+         <Comments></Comments>
     </div>
   );
 }
-
-
+function Comments(){
+  const [comments,setComment]=useState([])
+  useEffect(()=>{
+    fetch("https://jsonplaceholder.typicode.com/comments")
+    .then(res=>res.json())
+    .then(data=>setComment(data))
+  },[])
+  return(
+    <div>
+      {comments.map(comment=><Commnet email={comment.email} body={comment.body}></Commnet>)}
+    </div>
+  )
+}
+function Commnet(props){
+  return (
+    <div>
+      <h2>Email:{props.email}</h2>
+      <h3>{props.body}</h3>
+    </div>
+  )
+}
 
 
 
